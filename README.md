@@ -46,4 +46,6 @@ Estou aprofundando meus conhecimentos em:
 
 ## ✉️ Vamos Conversar?
 - **LinkedIn**: [marcoskatayama](http://linkedin.com/in/marcoskatayama/)
-- **Email**: [Seu Email Aqui]
+- **Email**: [katayamasolution@gmail.com](mailto:katayamasolution@gmail.com)
+
+---
