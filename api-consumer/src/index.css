@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* No App.css ou index.css */
+body {
+  @apply bg-slate-50 text-slate-900;
+  font-family: 'Inter', sans-serif;
+}
+
+/* UX: Deixar o scroll suave para o useEffect que criamos */
+html {
+  scroll-behavior: smooth;
+}
