@@ -3,7 +3,7 @@
 Bem-vindo ao meu ecossistema de projetos. Sou um desenvolvedor Fullstack com sólida experiência no desenvolvimento de sistemas de automação e integração de dados. Atualmente, foco minha especialização em tecnologias modernas de frontend e mobile.
 
 ## 👨‍💻 Sobre Mim
-- 🎓 **Mestre em TI**: Especialista em Python com foco em arquitetura de software e soluções escaláveis.
+- 🎓 **Pós-Graduado em Desenvolvimento de Sistemas em Python**: Especialista com foco em arquitetura de software, automação e soluções escaláveis.
 - 💼 **Fullstack na Kralen Sistemas**: Responsável pelo desenvolvimento de plataformas de força de vendas e integração de ERPs com grandes marketplaces (Bling, Wix, Mercado Pago).
 - 🎯 **Foco Atual**: Construção de interfaces de alto desempenho com **React** e **Next.js**, e desenvolvimento de aplicativos híbridos com **React Native**.
 
