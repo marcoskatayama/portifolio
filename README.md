@@ -29,6 +29,7 @@ Bem-vindo ao meu ecossistema de projetos. Sou um desenvolvedor Fullstack com só
 
 | Projeto | Status | Descrição | Tech Stack |
 | :--- | :--- | :--- | :--- |
+| **[Product Store](./api-consumer)** | ✅ Concluído | Vitrine de e-commerce com filtragem em tempo real, paginação e troca dinâmica de layout. | React, TS, Tailwind, Lucide |
 | **[Finanças Pro](./financas-dashboard)** | ✅ Concluído | Dashboard financeiro com persistência local e visualização de dados. | Next.js, Zustand, Recharts |
 | **[Katayama Solution](https://katayamasolution.com/)** | ✅ Concluído | Página pessoal desenvolvida em Next.js, com integração de IA para geração de conteúdo.| Next.js, TailwindCSS, OpenAI API, GitHub Actions |
 | **[Kralen Web](.)** | ✅ Concluído | Plataforma de automação de vendas focada em UX. | Python, TypeScript, API Integration |
@@ -38,10 +39,10 @@ Bem-vindo ao meu ecossistema de projetos. Sou um desenvolvedor Fullstack com só
 
 ## 📈 Desafios Técnicos Atuais
 Estou aprofundando meus conhecimentos em:
-- **Performance Web**: Otimização de Web Vitals e renderização no lado do servidor (SSR/ISR).
-- **Mobile Patterns**: Gerenciamento de estado complexo e navegação fluida em dispositivos móveis.
-- **Integração de IA**: Como demonstrei em meu site pessoal, utilizo IA para automação de geração de conteúdo e metadados.
-
+- **Arquitetura Frontend & Clean Code:** Implementação de Clean Architecture e Custom Hooks para separação rigorosa de lógica de negócio e interface.
+- **Performance Web Avançada:** Otimização de Web Vitals, renderização no lado do servidor (SSR/ISR) e memoização de estados complexos com useMemo e useCallback.
+- **UX/UI & Mobile Patterns:** Criação de interfaces adaptáveis (Grid/List) e gerenciamento de estado fluido em dispositivos móveis e web.
+- **Integração de IA:** Automação de geração de conteúdo e metadados, como aplicado em meu site pessoal através de APIs de modelos de linguagem.
 ---
 
 ## ✉️ Vamos Conversar?
