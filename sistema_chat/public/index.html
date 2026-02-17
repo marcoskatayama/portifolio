@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusChat - Secure Auth</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --bg: #f8fafc;
+      --sidebar: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+    }
+
+    /* Auth Screen */
+    #auth-screen {
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    .auth-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Logout */
+    .logout-container {
+      padding: 10px 15px;
+      background: #0f172a;
+    }
+
+    .btn-logout {
+      width: 100%;
+      padding: 8px;
+      background: #e11d48;
+      /* Vermelho vibrante */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: #be123c;
+    }
+
+    /* Chat Layout */
+    #sidebar {
+      width: 260px;
+      background: var(--sidebar);
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat-main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    #messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Bubbles */
+    .msg-row {
+      display: flex;
+      width: 100%;
+    }
+
+    .msg-row.mine {
+      justify-content: flex-end;
+    }
+
+    .bubble {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .mine .bubble {
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+
+    .others .bubble {
+      background: #e2e8f0;
+      color: #1e293b;
+      border-bottom-left-radius: 2px;
+    }
+
+    #form {
+      padding: 20px;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 10px;
+    }
+
+    #input {
+      flex-grow: 1;
+      padding: 12px;
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+    }
+
+    .status-container {
+      padding: 15px;
+      border-top: 1px solid #334155;
+      background: #1a252f;
+    }
+
+    .status-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      background: #334155;
+      color: white;
+      border: 1px solid #475569;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* Bolinhas de status na lista */
+    .status-dot {
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .status-disponível {
+      background: #2ecc71;
+    }
+
+    .status-ocupado {
+      background: #e74c3c;
+    }
+
+    .status-ausente {
+      background: #f1c40f;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="auth-screen">
+    <div class="auth-box">
+      <h2 id="auth-title" style="margin-bottom: 20px;">Nexus Login</h2>
+      <input type="text" id="reg-name" placeholder="Seu Nome" style="display: none;">
+      <input type="email" id="auth-email" placeholder="E-mail">
+      <input type="password" id="auth-pass" placeholder="Senha">
+      <button onclick="submitAuth()" id="auth-btn">Entrar</button>
+      <p onclick="toggleAuth()"
+        style="text-align:center; margin-top:15px; cursor:pointer; font-size:0.8rem; color:var(--primary)">Novo por
+        aqui? Cadastre-se</p>
+    </div>
+  </div>
+
+  <aside id="sidebar">
+    <div style="padding: 20px; background: #0f172a; font-weight: bold;">Katayama Chat</div>
+    <ul id="user-list" style="list-style:none; padding: 15px;"></ul>
+    <!-- STATUS -->
+    <div class="status-container">
+      <small style="display:block; margin-bottom:5px; color:#94a3b8;">Meu Status:</small>
+      <select id="status-select" class="status-select">
+        <option value="Disponível">🟢 Disponível</option>
+        <option value="Ocupado">🔴 Ocupado</option>
+        <option value="Ausente">🟡 Ausente</option>
+      </select>
+    </div>
+
+    <!-- Logout -->
+    <div class="logout-container">
+      <button onclick="logout()" class="btn-logout">Sair</button>
+    </div>
+  </aside>
+
+  <main id="chat-main">
+    <div id="messages"></div>
+    <form id="form">
+      <input type="file" id="fileInput" style="display: none;">
+      <button type="button" onclick="document.getElementById('fileInput').click()"
+        style="background:none; border:none; font-size:1.5rem; cursor:pointer;">📎</button>
+      <input id="input" autocomplete="off" placeholder="Sua mensagem...">
+      <button type="submit"
+        style="background:var(--primary); color:white; border:none; padding: 0 20px; border-radius: 20px; cursor:pointer;">Enviar</button>
+    </form>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let isReg = false;
+    let user = JSON.parse(localStorage.getItem('user'));
+    let token = localStorage.getItem('token');
+
+    // Alternar Login/Cadastro
+    function toggleAuth() {
+      isReg = !isReg;
+      document.getElementById('reg-name').style.display = isReg ? 'block' : 'none';
+      document.getElementById('auth-title').innerText = isReg ? 'Nexus Cadastro' : 'Nexus Login';
+      document.getElementById('auth-btn').innerText = isReg ? 'Cadastrar' : 'Entrar';
+    }
+
+    // Lógica de Autenticação
+    async function submitAuth() {
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-pass').value;
+      const name = document.getElementById('reg-name').value;
+
+      const path = isReg ? '/signup' : '/login';
+      const res = await fetch(path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name })
+      });
+
+      if (res.ok) {
+        if (isReg) { alert("Sucesso! Faça Login."); toggleAuth(); }
+        else {
+          const data = await res.json();
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          window.location.reload();
+        }
+      } else { alert("Erro na autenticação."); }
+    }
+
+    // Inicialização do Chat
+    if (token && user) {
+      document.getElementById('auth-screen').style.display = 'none';
+      socket.emit('login', user.name, user.id);
+    }
+
+    // Logout
+    function logout() {
+      // 1. Remove os dados do navegador
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      // 2. Desconecta o socket manualmente para limpar a lista de usuários online imediatamente
+      socket.disconnect();
+
+      // 3. Recarrega a página para voltar à tela de login
+      window.location.reload();
+    }
+
+    // status-ausente
+    // 1. Ouvinte para mudança de status
+    document.getElementById('status-select').addEventListener('change', (e) => {
+      socket.emit('update status', e.target.value);
+    });
+
+    // 2. Atualize o socket.on('user list') para mostrar as bolinhas coloridas
+    socket.on('user list', (users) => {
+      document.getElementById('user-list').innerHTML = users.map(u => `
+    <li style="margin-bottom: 8px; font-size: 0.9rem; display: flex; align-items: center;">
+      <span class="status-dot status-${u.status.toLowerCase()}"></span>
+      <span>${u.name} <small style="opacity:0.6; font-size:0.7rem;">(${u.status})</small></span>
+    </li>
+  `).join('');
+    });
+
+    // Mensagens
+    function addMessage(name, text, time, fileUrl, senderId) {
+      const isMine = senderId == user?.id;
+      const div = document.createElement('div');
+      div.className = `msg-row ${isMine ? 'mine' : 'others'}`;
+      div.innerHTML = `
+        <div class="bubble">
+          <small style="display:block; opacity:0.7">${name}</small>
+          ${text}
+          ${fileUrl ? `<br><a href="${fileUrl}" target="_blank" style="color:${isMine ? '#fff' : '#006'}">📁 Abrir arquivo</a>` : ''}
+          <small style="display:block; text-align:right; font-size:0.6rem; margin-top:4px;">${time}</small>
+        </div>
+      `;
+      document.getElementById('messages').appendChild(div);
+      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    }
+
+    socket.on('load history', (history) => {
+      history.forEach(m => addMessage(m.sender_name, m.content, m.time, m.file_url, m.user_id));
+    });
+
+    socket.on('chat message', (msg, time, fileUrl, senderId) => {
+      const name = msg.split(':')[0];
+      const content = msg.split(':').slice(1).join(':') || msg;
+      addMessage(name, content, time, fileUrl, senderId);
+    });
+
+    document.getElementById('form').onsubmit = (e) => {
+      e.preventDefault();
+      const val = document.getElementById('input').value.trim();
+      if (val) {
+        socket.emit('chat message', val, new Date().toLocaleTimeString(), user.id);
+        document.getElementById('input').value = '';
+      }
+    };
+
+    document.getElementById('fileInput').onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const fd = new FormData();
+      fd.append('anexo', file);
+      await fetch('/upload', {
+        method: 'POST',
+        body: fd,
+        headers: { 'Authorization': token }
+      });
+      e.target.value = '';
+    };
+
+    socket.on('user list', (users) => {
+      document.getElementById('user-list').innerHTML = users.map(u => `<li>🟢 ${u.name}</li>`).join('');
+    });
+  </script>
+</body>
+
+</html>

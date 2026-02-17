@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+/* 1. Reset Global e Altura da tela */
+@layer base {
+  html,
+  body,
+  #root {
+    @apply m-0 h-full overflow-hidden p-0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* 2. Cores customizadas como variáveis (opcional se usar o theme do tailwind) */
+  :root {
+    --sidebar-bg: #0f172a; /* Ex: slate-900 */
+    --primary: #2563eb; /* Ex: blue-600 */
+  }
+}
+
+/* 3. Estilização da barra de rolagem (opcional para UX) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}

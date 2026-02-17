@@ -1,0 +1,41 @@
+generator client {
+  provider        = "prisma-client" // or `prisma-client-js`
+  output          = "./prisma/generated/prisma"
+  engineType      = "client" // enable Prisma ORM without Rust
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ROOT
+  ADMIN
+  SUPPORT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  userName  String   @unique
+  password  String   // Em um sistema real, usaremos bcrypt aqui
+  role      UserRole @default(SUPPORT)
+  createdAt DateTime @default(now())
+}
+
+model Room {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  messages    Message[]
+  createdAt   DateTime  @default(now())
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String
+  author    String
+  roomName  String
+  room      Room     @relation(fields: [roomName], references: [name])
+  createdAt DateTime @default(now())
+}

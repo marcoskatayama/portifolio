@@ -1,0 +1,8 @@
+{
+  "semi": true,                // ✅ obriga ponto e vírgula
+  "trailingComma": "all",      // ✅ vírgula final (objetos, arrays, params, etc.)
+  "singleQuote": true,         // ✅ aspas simples
+  "printWidth": 80,            // ✅ quebra de linha padrão
+  "tabWidth": 4,               // ✅ indentação
+  "plugins": ["prettier-plugin-tailwindcss"] // ✅ ordena classes do Tailwind
+}

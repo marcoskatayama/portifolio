@@ -1,0 +1,60 @@
+{
+  // --- AUTOMAÇÃO E SALVAMENTO ---
+  "files.autoSave": "onFocusChange", // Salva ao sair do arquivo/aba
+
+  // --- LIMPEZA DE ESPAÇOS E LINHAS ---
+  "files.trimTrailingWhitespace": true, // Remove espaços inúteis no fim das linhas
+  "files.insertFinalNewline": true, // Garante uma linha em branco no fim do arquivo (padrão POSIX)
+  "files.trimFinalNewlines": true, // Remove múltiplas linhas em branco no fim do arquivo
+
+  // --- CONFIGURAÇÕES GERAIS DO EDITOR ---
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true, // Adapta-se ao arquivo, mas prioriza o seu padrão
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+
+  // --- AÇÕES AUTOMÁTICAS AO SALVAR (TS, JS & REACT) ---
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit", // Corrige erros de lint automaticamente
+    "source.organizeImports": "explicit", // Ordena os imports e remove os não utilizados
+    "source.fixAll": "explicit", // Aplica todas as correções automáticas possíveis
+    "source.removeUnusedImports": "explicit"
+  },
+
+  // --- CONFIGURAÇÕES ESPECÍFICAS POR LINGUAGEM ---
+  "[typescript]": { "editor.suggest.completeFunctionCalls": true },
+  "[typescriptreact]": { "editor.suggest.completeFunctionCalls": true },
+  "[html]": { "editor.defaultFormatter": "vscode.html-language-features" },
+  "[css]": { "editor.defaultFormatter": "vscode.css-language-features" },
+
+  // --- TAILWIND CSS & INTELLISENSE ---
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "javascriptreact",
+    "html": "html"
+  },
+  // Faz o VS Code sugerir classes do Tailwind mesmo dentro de strings complexas
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]* archival)[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]* archival)[\"'`]"]
+  ],
+
+  // --- PRETTIER & TAILWIND (Organização de Classes) ---
+  // IMPORTANTE: Requer o plugin 'prettier-plugin-tailwindcss' instalado no projeto
+  "prettier.documentSelectors": ["**/*.{js,jsx,ts,tsx,html,css}"],
+
+  // --- TYPESCRIPT AUTO-IMPORT (Usando seus Aliases @/) ---
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.quoteStyle": "single", // Padroniza para aspas simples (opcional)
+
+  // --- EMMET (Acelera a escrita de HTML/React) ---
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescriptreact": "typescriptreact"
+  },
+  "editor.fontSize": 14
+}
